@@ -10,7 +10,7 @@ public class Bill_Management {
 
 	//A common method to connect to the DB
 	
-			private Connection connect() 
+			public Connection connect() 
 			 { 
 			 Connection con = null; 
 			 try
@@ -143,6 +143,35 @@ public class Bill_Management {
 			 catch (Exception e) 
 			 { 
 			 output = "Error while updating the details."; 
+			 System.err.println(e.getMessage()); 
+			 } 
+			 return output; 
+			 }
+			
+			
+			//delete method 
+			
+			public String deleteDetails(String Bill_id) 
+			 { 
+			 String output = ""; 
+			 try
+			 { 
+			 Connection con = connect(); 
+			 if (con == null) 
+			 {return "Error while connecting to the database for deleting."; } 
+			 // create a prepared statement
+			 String query = "delete from electrical_grid_system.user_bill where Bill_id=?"; 
+			 PreparedStatement preparedStmt = con.prepareStatement(query); 
+			 // binding values
+			 preparedStmt.setInt(1, Integer.parseInt(Bill_id)); 
+			 // execute the statement
+			 preparedStmt.execute(); 
+			 con.close(); 
+			 output = "Deleted successfully"; 
+			 } 
+			 catch (Exception e) 
+			 { 
+			 output = "Error while deleting the details."; 
 			 System.err.println(e.getMessage()); 
 			 } 
 			 return output; 
