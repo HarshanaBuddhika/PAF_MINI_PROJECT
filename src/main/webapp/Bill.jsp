@@ -8,5 +8,14 @@
 </head>
 <body>
 
+<body>
+<h1>Bill Management</h1>
+<form method="post" action="Bill.jsp">
+Account Number: <input name="" type="text" ><br>
+Days: <input name="" type="text" ><br>
+Unit: <input name="" type="text" ><br>
+Month: <input name="" type="text" ><br>
+<input name="btnSubmit" type="submit" value="Save">
+</form>
 </body>
 </html>
