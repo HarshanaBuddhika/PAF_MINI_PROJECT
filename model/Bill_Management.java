@@ -10,7 +10,7 @@ public class Bill_Management {
 
 	//A common method to connect to the DB
 	
-			public Connection connect() 
+			private Connection connect() 
 			 { 
 			 Connection con = null; 
 			 try
@@ -28,7 +28,7 @@ public class Bill_Management {
 			
 			//insert method
 			
-			public String insertDetails(String Account_Number, String days, String units, String Month) 
+			public String insertDetails(String Account_Number, String days, String units, String Month, String Amount) 
 			 { 
 			 String output = ""; 
 			 try
@@ -37,14 +37,17 @@ public class Bill_Management {
 			 if (con == null) 
 			 {return "Error while connecting to the database for inserting."; } 
 			 // create a prepared statement
-			 String query = " insert into electrical_grid_system.user_bill(`Bill_id`,`User_Account_Number`,`No_of_days`,`No_of_units`,`Month`)" + " values (?, ?, ?, ?, ?)"; 
+			 String query = " insert into electrical_grid_system.user_bill(`Bill_id`,`User_Account_Number`,`No_of_days`,`No_of_units`,`Month`,`Amount`)" + " values (?, ?, ?, ?, ?, ?)"; 
 			 PreparedStatement preparedStmt = con.prepareStatement(query); 
+			 
+			 
 			 // binding values
 			 preparedStmt.setInt(1, 0); 
 			 preparedStmt.setString(2, Account_Number); 
-			 preparedStmt.setString(3, days); 
+			 preparedStmt.setInt(3, Integer.parseInt(days)); 
 			 preparedStmt.setDouble(4, Double.parseDouble(units)); 
 			 preparedStmt.setString(5, Month); 
+			 preparedStmt.setDouble(6, Double.parseDouble(Amount)); 
 			 // execute the statement
 			 
 			 preparedStmt.execute(); 
@@ -73,7 +76,7 @@ public class Bill_Management {
 			 // Prepare the html table to be displayed
 			 output = "<table border='1'><tr><th>Account Number</th><th>No of Days</th>" +
 			 "<th>No of Units</th>" + 
-			 "<th>Month</th>" +
+			 "<th>Month</th>" + "<th>Amount</th>" +
 			 "<th>Update</th><th>Remove</th></tr>"; 
 			 
 			 String query = "select * from electrical_grid_system.user_bill"; 
@@ -84,16 +87,18 @@ public class Bill_Management {
 			 { 
 			 String Bill_id = Integer.toString(rs.getInt("Bill_id")); 
 			 String User_Account_Number = rs.getString("User_Account_Number"); 
-			 String No_of_days = rs.getString("No_of_days"); 
+			 String No_of_days = Integer.toString(rs.getInt("No_of_days")); 
 			 String No_of_units = Double.toString(rs.getDouble("No_of_units")); 
 			 String Month = rs.getString("Month"); 
+			 String Amount = Double.toString(rs.getDouble("Amount")); 
 			 // Add into the html table
-			 output += "<tr><td>" + AccountNumber + "</td>"; 
-			 output += "<td>" + Days + "</td>"; 
-			 output += "<td>" + Units + "</td>"; 
+			 output += "<tr><td>" + User_Account_Number + "</td>"; 
+			 output += "<td>" + No_of_days + "</td>"; 
+			 output += "<td>" + No_of_units + "</td>"; 
 			 output += "<td>" + Month + "</td>"; 
+			 output += "<td>" + Amount + "</td>";
 			 // buttons
-			 output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>" + "<td><form method='post' action='Bill.jsp'>"
+			 output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>" + "<td><form method='post' action='Bill_Display.jsp'>"
 			 + "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>"
 			 + "<input name='Bill_id' type='hidden' value='" + Bill_id + "'>" + "</form></td></tr>"; 
 			 } 
@@ -110,9 +115,9 @@ public class Bill_Management {
 			 } 
 			
 			
-			// update method 
+			 // update method 
 			
-			public String updateDetails(String BillID, String AccountNumber, String Days, String Units, String Month) 
+			public String updateDetails(String BillID, String Account_Number, String days, String units, String Month, String Amount) 
 			 
 			 { 
 			 String output = ""; 
@@ -120,25 +125,26 @@ public class Bill_Management {
 			 { 
 			 Connection con = connect(); 
 			 if (con == null) 
-			 {return "Error while connecting to the database for updating."; }
+			 {
+				 return "Error while connecting to the database for updating."; 
+			 }
 			 
 			  // create a prepared statement
 			 
-			 String query = "UPDATE electrical_grid_system.user_bill SET User_Account_Number=?,No_of_days=?,No_of_units=?,Month=? WHERE Bill_id=?"; 
+			 String query = "UPDATE electrical_grid_system.user_bill SET User_Account_Number=?,No_of_days=?,No_of_units=?,Month=?,Amount=? WHERE Bill_id=?"; 
 			 PreparedStatement preparedStmt = con.prepareStatement(query); 
 			
 			 // binding values
-			 preparedStmt.setString(1, AccountNumber); 
-			 preparedStmt.setString(2, Days); 
-			 preparedStmt.setDouble(3, Double.parseDouble(Units)); 
+			 preparedStmt.setString(1, Account_Number); 
+			 preparedStmt.setInt(2, Integer.parseInt(days)); 
+			 preparedStmt.setDouble(3, Double.parseDouble(units)); 
 			 preparedStmt.setString(4, Month); 
-			 preparedStmt.setInt(5, Integer.parseInt(BillID)); 
-			 
-			
+			 preparedStmt.setInt(5, Integer.parseInt(BillID));
+			 preparedStmt.setDouble(6, Double.parseDouble(Amount));
 			 // execute the statement
 			 preparedStmt.execute(); 
 			 con.close(); 
-			 output = "Updated successfully"; 
+			 output = "Updated 45 successfully"; 
 			 } 
 			 catch (Exception e) 
 			 { 
@@ -147,6 +153,7 @@ public class Bill_Management {
 			 } 
 			 return output; 
 			 }
+			
 			
 			
 			//delete method 
@@ -158,9 +165,7 @@ public class Bill_Management {
 			 { 
 			 Connection con = connect(); 
 			 if (con == null) 
-			 {
-				 return "Error while connecting to the database for deleting.";
-			 } 
+			 {return "Error while connecting to the database for deleting."; } 
 			 // create a prepared statement
 			 String query = "delete from electrical_grid_system.user_bill where Bill_id=?"; 
 			 PreparedStatement preparedStmt = con.prepareStatement(query); 
@@ -170,7 +175,6 @@ public class Bill_Management {
 			 preparedStmt.execute(); 
 			 con.close(); 
 			 output = "Deleted successfully"; 
-			 
 			 } 
 			 catch (Exception e) 
 			 { 
@@ -179,6 +183,5 @@ public class Bill_Management {
 			 } 
 			 return output; 
 			 }
-			
 }	
 
