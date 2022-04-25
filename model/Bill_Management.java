@@ -82,10 +82,10 @@ public class Bill_Management {
 			 // iterate through the rows in the result set
 			 while (rs.next()) 
 			 { 
-			 String BillID = Integer.toString(rs.getInt("Bill_id")); 
-			 String AccountNumber = rs.getString("User_Account_Number"); 
-			 String Days = rs.getString("No_of_days"); 
-			 String Units = Double.toString(rs.getDouble("No_of_units")); 
+			 String Bill_id = Integer.toString(rs.getInt("Bill_id")); 
+			 String User_Account_Number = rs.getString("User_Account_Number"); 
+			 String No_of_days = rs.getString("No_of_days"); 
+			 String No_of_units = Double.toString(rs.getDouble("No_of_units")); 
 			 String Month = rs.getString("Month"); 
 			 // Add into the html table
 			 output += "<tr><td>" + AccountNumber + "</td>"; 
@@ -95,7 +95,7 @@ public class Bill_Management {
 			 // buttons
 			 output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>" + "<td><form method='post' action='Bill.jsp'>"
 			 + "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>"
-			 + "<input name='BillID' type='hidden' value='" + BillID + "'>" + "</form></td></tr>"; 
+			 + "<input name='Bill_id' type='hidden' value='" + Bill_id + "'>" + "</form></td></tr>"; 
 			 } 
 			 con.close(); 
 			 // Complete the html table
@@ -158,7 +158,9 @@ public class Bill_Management {
 			 { 
 			 Connection con = connect(); 
 			 if (con == null) 
-			 {return "Error while connecting to the database for deleting."; } 
+			 {
+				 return "Error while connecting to the database for deleting.";
+			 } 
 			 // create a prepared statement
 			 String query = "delete from electrical_grid_system.user_bill where Bill_id=?"; 
 			 PreparedStatement preparedStmt = con.prepareStatement(query); 
@@ -168,6 +170,7 @@ public class Bill_Management {
 			 preparedStmt.execute(); 
 			 con.close(); 
 			 output = "Deleted successfully"; 
+			 
 			 } 
 			 catch (Exception e) 
 			 { 
@@ -177,5 +180,5 @@ public class Bill_Management {
 			 return output; 
 			 }
 			
-			
-}
+}	
+
