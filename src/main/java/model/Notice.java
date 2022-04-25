@@ -1,7 +1,7 @@
 package model;
 import java.sql.*;
 public class Notice
-{ //A common method to connect to the DB
+{ //A common method to connect to the Database
 private Connection connect()
  {
  Connection con = null;
@@ -9,7 +9,7 @@ private Connection connect()
  {
  Class.forName("com.mysql.jdbc.Driver");
 
- //Provide the correct details: DBServer/DBName, username, password
+ //Provide the correct details: DBServer/DBName, username, password details 
  con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/notice_db", "root", "");
  }
  catch (Exception e)
