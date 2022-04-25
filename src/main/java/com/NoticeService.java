@@ -52,6 +52,7 @@ public String updateNotice(String noticeData)
 return output;
 }
 
+//Delete
 @DELETE
 @Path("/")
 @Consumes(MediaType.APPLICATION_XML)
