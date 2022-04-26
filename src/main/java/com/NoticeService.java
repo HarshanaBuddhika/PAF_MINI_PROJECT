@@ -40,7 +40,7 @@ return output;
 @Produces(MediaType.TEXT_PLAIN)
 public String updateNotice(String noticeData)
 {
-//Convert the input string to a JSON object
+//Convert the input string to a JSON Object
  JsonObject noticeObject = new JsonParser().parse(noticeData).getAsJsonObject();
 //Read the values from the JSON object
  String noticeID = noticeObject.get("noticeID").getAsString();
