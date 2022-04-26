@@ -18,7 +18,7 @@ private Connection connect()
  } 
 
 
-public String insertItem(String  acc, String name, String amount, String desc) 
+public String insertPayment(String  acc, String name, String amount, String desc) 
  { 
  String output = ""; 
  try
@@ -27,7 +27,7 @@ public String insertItem(String  acc, String name, String amount, String desc)
  if (con == null) 
  {return "Error while connecting to the database for inserting."; } 
  // create a prepared statement
- String query = " insert into payment_table(`payment_ID`,`account_num`,`user_name`,`itemPrice`,`payment_desc`)" + " values (?, ?, ?, ?, ?)"; 
+ String query = " insert into payment_table(`payment_ID`,`account_num`,`user_name`,`amount`,`payment_desc`)" + " values (?, ?, ?, ?, ?)"; 
  PreparedStatement preparedStmt = con.prepareStatement(query); 
  // binding values
  preparedStmt.setInt(1, 0); 
@@ -50,7 +50,7 @@ public String insertItem(String  acc, String name, String amount, String desc)
 
 
 
-public String readItems() 
+public String readPayment() 
  { 
  String output = ""; 
  try
@@ -70,11 +70,11 @@ public String readItems()
  // iterate through the rows in the result set
  while (rs.next()) 
  { 
- String itemID = Integer.toString(rs.getInt("itemID")); 
- String itemCode = rs.getString("itemCode"); 
- String itemName = rs.getString("itemName"); 
- String itemPrice = Double.toString(rs.getDouble("itemPrice")); 
- String itemDesc = rs.getString("itemDesc"); 
+ String itemID = Integer.toString(rs.getInt("payment_ID")); 
+ String itemCode = rs.getString("account_num"); 
+ String itemName = rs.getString("user_name"); 
+ String itemPrice = Double.toString(rs.getDouble("amount")); 
+ String itemDesc = rs.getString("payment_desc"); 
  // Add into the html table
  output += "<tr><td>" + itemCode + "</td>"; 
  output += "<td>" + itemName + "</td>"; 
@@ -96,7 +96,9 @@ public String readItems()
  } 
  return output; 
  } 
-public String updateItem(String ID, String code, String name, String price, String desc) 
+
+
+public String updatePayment(String ID, String  acc, String name, String amount, String desc) 
  
  { 
  String output = ""; 
@@ -106,12 +108,12 @@ public String updateItem(String ID, String code, String name, String price, Stri
  if (con == null) 
  {return "Error while connecting to the database for updating."; } 
  // create a prepared statement
- String query = "UPDATE payment_table SET itemCode=?,itemName=?,itemPrice=?,itemDesc=? WHERE itemID=?"; 
+ String query = "UPDATE payment_table SET account_num=?,user_name=?,amount=?,payment_desc=? WHERE payment_ID=?"; 
  PreparedStatement preparedStmt = con.prepareStatement(query); 
  // binding values
- preparedStmt.setString(1, code); 
+ preparedStmt.setString(1, acc); 
  preparedStmt.setString(2, name); 
- preparedStmt.setDouble(3, Double.parseDouble(price)); 
+ preparedStmt.setDouble(3, Double.parseDouble(amount)); 
  preparedStmt.setString(4, desc); 
  preparedStmt.setInt(5, Integer.parseInt(ID)); 
  // execute the statement
@@ -126,7 +128,9 @@ public String updateItem(String ID, String code, String name, String price, Stri
  } 
  return output; 
  } 
-public String deleteItem(String itemID) 
+
+
+public String deletePayment(String payment_ID) 
  { 
  String output = ""; 
  try
@@ -135,10 +139,10 @@ public String deleteItem(String itemID)
  if (con == null) 
  {return "Error while connecting to the database for deleting."; } 
  // create a prepared statement
- String query = "delete from payment_table where itemID=?"; 
+ String query = "delete from payment_table where payment_ID=?"; 
  PreparedStatement preparedStmt = con.prepareStatement(query); 
  // binding values
- preparedStmt.setInt(1, Integer.parseInt(itemID)); 
+ preparedStmt.setInt(1, Integer.parseInt(payment_ID)); 
  // execute the statement
  preparedStmt.execute(); 
  con.close(); 
