@@ -32,7 +32,7 @@
 <body>
 	
 	<form action="" method="post">
-	User ID  <input type="text" name="userid"><br>
+	User Account No  <input type="text" name="userid"><br>
 	Password<input type="password" name="userpassword"><br>
 	<input type="submit" value="login" name="login">
 	</form>

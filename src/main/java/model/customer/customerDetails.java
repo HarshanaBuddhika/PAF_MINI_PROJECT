@@ -46,7 +46,7 @@ public class customerDetails {
 			
 			Statement st = con.createStatement();
 			ResultSet rs;
-			rs = st.executeQuery("select * from customer where idcustomer='" + cusid + "' and cuspassword='" + cuspassword + "'");
+			rs = st.executeQuery("select * from customer where cusaccountNo='" + cusid + "' and cuspassword='" + cuspassword + "'");
 			 if (rs.next()) 
 			 {
 			     validate=true;
@@ -209,7 +209,7 @@ public class customerDetails {
 					+"<th>Customer NIC No</th>"
 					+ "<th>Update</th><th>Remove</th></tr>";
 		
-			String query = "select * from customer where idcustomer ='"+id+"'";
+			String query = "select * from customer where cusaccountNo ='"+id+"'";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 		
@@ -259,7 +259,7 @@ public class customerDetails {
 		return customer;
 	}
 	
-	public String updatecustomer(String id,String name, String email, String number,String accnumber,String nicnumber,String password )
+	public String updatecustomer(String id,String name, String email, String number,String nicnumber,String password )
 	{
 		String output="";
 					
@@ -273,7 +273,7 @@ public class customerDetails {
 				
 			}
 			
-			String query = "update customer set cusname=?, cusemail=?, cusnumber=?, cusaccountNo=?, cusnicno=?, cuspassword=? where idcustomer=?";
+			String query = "update customer set cusname=?, cusemail=?, cusnumber=?, cusnicno=?, cuspassword=? where idcustomer=?";
 			
 			PreparedStatement preparedstmt = con.prepareStatement(query);
 			
@@ -281,15 +281,15 @@ public class customerDetails {
 			preparedstmt.setString(1, name);
 			preparedstmt.setString(2, email);
 			preparedstmt.setString(3, number);
-			preparedstmt.setString(4, accnumber);
-			preparedstmt.setString(5, nicnumber);
-			preparedstmt.setString(6, password);
-			preparedstmt.setInt(7, Integer.parseInt(id));
+			preparedstmt.setString(4, nicnumber);
+			preparedstmt.setString(5, password);
+			preparedstmt.setInt(6, Integer.parseInt(id));
+			
 			
 			preparedstmt.execute();
 			con.close();
 			
-			output= "updated successfully";
+			output= "Error while updating";
 			
 		} 
 		catch (SQLException e) 
@@ -318,15 +318,15 @@ public class customerDetails {
 			
 			PreparedStatement preparedstmt = con.prepareStatement(query);
 			
-			int cutomerID = Integer.parseInt(cusid);
-			
-			preparedstmt.setInt(1, cutomerID);
-			
+			preparedstmt.setInt(1, Integer.parseInt(cusid));
+				
 			preparedstmt.execute();
+			
 			con.close();
 			
 			output = "Successfully deleted";
-			
+					
+											
 		}
 		catch(Exception e)
 		{

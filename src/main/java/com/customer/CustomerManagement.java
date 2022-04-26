@@ -39,9 +39,9 @@ public class CustomerManagement {
 	{
 		JsonObject customObj = new JsonParser().parse(cstmid).getAsJsonObject();
 		
-		String customerID = customObj.get("customerID").getAsString();
+		String customerac = customObj.get("customerac").getAsString();
 		
-		String output=customerObj.getACustomerDetails(customerID);
+		String output=customerObj.getACustomerDetails(customerac);
 		return output;
 	}
 	
@@ -72,11 +72,10 @@ public class CustomerManagement {
 			@FormParam("cusname") String cusname,
 			@FormParam("cusemail") String cusemail,
 			@FormParam("cusnumber") String cusnumber,
-			@FormParam("cusacnumber") String cusacnumber,
 			@FormParam("cusnicnumber") String cusnicnumber,
 			@FormParam("cuspassword") String cuspassword)
 	{
-		String output=customerObj.updatecustomer(idcustomer, cusname, cusemail, cusnumber, cusacnumber, cusnicnumber, cuspassword);
+		String output=customerObj.updatecustomer(idcustomer, cusname, cusemail, cusnumber, cusnicnumber, cuspassword);
 		return output;
 	}
 	
