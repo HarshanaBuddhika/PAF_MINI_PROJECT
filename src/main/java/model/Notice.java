@@ -76,7 +76,7 @@ public String readNotice()
  output += "<td>" + noticeDate + "</td>";
  output += "<td>" + noticeTime + "</td>";
  output += "<td>" + noticeDesc + "</td>";
- // buttons
+ // buttons in the table
  output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"
  + "<td><form method='post' action='notice.jsp'>"
  + "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>"
