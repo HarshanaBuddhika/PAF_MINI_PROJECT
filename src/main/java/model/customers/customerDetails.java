@@ -1,4 +1,4 @@
-package model.customer;
+package model.customers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

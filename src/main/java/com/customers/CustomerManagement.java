@@ -1,22 +1,22 @@
-package com.customer;
+package com.customers;
 
-
-import model.customer.customerDetails;
 
 //For REST Service
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-import com.customer.CustomerManagement;
+import com.customers.CustomerManagement;
 //For JSON
 import com.google.gson.*;
+
+import model.customers.customerDetails;
 
 //For XML
 import org.jsoup.*;
 import org.jsoup.parser.*;
 import org.jsoup.nodes.Document;
 
-@Path("customerDetails")
+@Path("/customerDetail")
 public class CustomerManagement {
 	
 	customerDetails customerObj = new customerDetails();
