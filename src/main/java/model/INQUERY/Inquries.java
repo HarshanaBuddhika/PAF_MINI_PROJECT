@@ -17,7 +17,10 @@ public class Inquries {
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
+
 			con= DriverManager.getConnection("jdbc:mysql://localhost:3306/paf","root", "Ilovesql@97");
+
+
 
 			//For testing 
 			System.out.print("Successfully connected");
